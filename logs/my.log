@@ -1,0 +1,261 @@
+2023-02-16 15:52:18,739 - root - INFO - Initializing server with 4 workers
+2023-02-16 15:52:18,739 - root - INFO - Binding to [::]:50051
+2023-02-16 15:52:18,742 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:52:18,743 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:52:18,744 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:52:18,745 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:52:22,925 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,925 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,926 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,929 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,929 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,929 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,930 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,930 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:52:22,930 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,415 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,416 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,417 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,417 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,418 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,419 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,419 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,420 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:54:37,421 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,510 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,512 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,512 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,513 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,513 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,514 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,514 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,515 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:55:33,515 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:30,997 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:30,997 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:30,997 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:30,998 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:30,999 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:30,999 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:31,000 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:31,000 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:56:31,001 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,019 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,021 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,021 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,021 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,022 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,023 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,023 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,023 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:57:08,029 - grpc._server - ERROR - Exception calling application: get_sample() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/home/hong/miniconda3/envs/slow/lib/python3.9/site-packages/grpc/_server.py", line 444, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+TypeError: get_sample() takes 2 positional arguments but 3 were given
+2023-02-16 15:58:18,582 - root - INFO - Initializing server with 4 workers
+2023-02-16 15:58:18,582 - root - INFO - Binding to [::]:50051
+2023-02-16 15:58:18,585 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:18,586 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:18,587 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:18,588 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:59,401 - root - INFO - Initializing server with 4 workers
+2023-02-16 15:58:59,401 - root - INFO - Binding to [::]:50051
+2023-02-16 15:58:59,404 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:59,405 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:59,406 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:58:59,407 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:59:35,309 - root - INFO - Initializing server with 4 workers
+2023-02-16 15:59:35,310 - root - INFO - Binding to [::]:50051
+2023-02-16 15:59:35,313 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:59:35,314 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:59:35,314 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 15:59:35,315 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:00:52,798 - root - INFO - Initializing server with 4 workers
+2023-02-16 16:00:52,798 - root - INFO - Binding to [::]:50051
+2023-02-16 16:00:52,801 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:00:52,803 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:00:52,803 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:00:52,804 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:05:56,674 - root - INFO - Initializing server with 4 workers
+2023-02-16 16:05:56,674 - root - INFO - Binding to [::]:50051
+2023-02-16 16:05:56,677 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:05:56,678 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:05:56,678 - root - INFO - Server started. Awaiting jobs with [::]:50051...
+2023-02-16 16:05:56,679 - root - INFO - Server started. Awaiting jobs with [::]:50051...
