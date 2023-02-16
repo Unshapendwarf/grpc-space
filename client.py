@@ -153,7 +153,7 @@ def prepare_batch() -> tp.List[str]:
         batch: (tp.List[bytes])
     """
     logger.info("Get image names...")
-    batch: tp.List[str] = glob.glob(os.path.join(args.video_path, "*.mp4"))
+    batch: tp.List[str] = [ os.path.basename(x) for x in glob.glob(os.path.join(args.video_path, "*.mp4"))]
     print(batch)
     return batch
 
