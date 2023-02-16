@@ -12,8 +12,8 @@ import multiprocessing as mp
 from concurrent import futures
 
 import grpc
-import data_feed_pb2
-import data_feed_pb2_grpc
+import grpc_proto.data_feed_pb2
+import grpc_proto.data_feed_pb2_grpc
 import sys
 import socket
 

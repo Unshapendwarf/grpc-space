@@ -15,8 +15,8 @@ import cv2 as cv
 import grpc
 
 import grpc
-import data_feed_pb2_grpc
-import data_feed_pb2
+import grpc_proto.data_feed_pb2_grpc
+import grpc_proto.data_feed_pb2
 
 NUM_CLIENTS = 12
 NUM_IMAGES = 12
@@ -153,7 +153,7 @@ def prepare_batch() -> tp.List[str]:
         batch: (tp.List[bytes])
     """
     logger.info("Get image names...")
-    batch: tp.List[str] = [ os.path.basename(x) for x in glob.glob(os.path.join(args.video_path, "*.mp4"))]
+    batch: tp.List[str] = [os.path.basename(x) for x in glob.glob(os.path.join(args.video_path, "*.mp4"))]
     print(batch)
     return batch
 
