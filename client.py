@@ -4,7 +4,7 @@ import os
 import atexit
 import multiprocessing
 import typing as tp
-import pickle
+
 import sys
 import logging
 import argparse
@@ -12,13 +12,17 @@ import glob
 
 # 3rd party libs
 import cv2 as cv
-import grpc
 
 import grpc
-import grpc_proto.data_feed_pb2_grpc
-import grpc_proto.data_feed_pb2
 
-NUM_CLIENTS = 12
+sys.path.append("./grpc_proto")
+import data_feed_pb2
+import data_feed_pb2_grpc
+
+# import grpc_proto.data_feed_pb2 as data_feed_pb2
+# import grpc_proto.data_feed_pb2_grpc as data_feed_pb2_grpc
+
+NUM_CLIENTS = 8
 NUM_IMAGES = 12
 
 # *********************** arg parser: start **************************
@@ -49,6 +53,10 @@ file_handler = logging.FileHandler("client.log")
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 # **************** setting log: done *************************
+
+csv_file = os.path.join("./index_files/train.csv")
+video_path = "/data/hong/k400/reduced/train/"
+video_names = []
 
 _worker_channel_singleton = None
 _worker_stub_singleton = None
@@ -98,7 +106,7 @@ def _initialize_worker(server_address: str) -> None:
     atexit.register(_shutdown_worker)
 
 
-def _run_worker_query(imgname: str) -> str:
+def _run_worker_query(get_tuple: tuple) -> str:
     """
     Execute the call to the gRPC server.
 
@@ -109,16 +117,17 @@ def _run_worker_query(imgname: str) -> str:
         detected text on the image
 
     """
+    index, imgname = get_tuple
     print(imgname)
 
-    response: data_feed_pb2.Config = _worker_stub_singleton.get_sample(data_feed_pb2.Config(filename=imgname))
+    response: data_feed_pb2.Config = _worker_stub_singleton.get_sample(data_feed_pb2.Config(index=index, filename=imgname))
     # change this return type to another
     # print(response)
-    return response.filename
+    # return response.filename
     # return response.image
 
 
-def compute_detections(batch: tp.List[str]) -> tp.List[str]:
+def compute_detections(batch: tp.List[tuple]) -> tp.List:
     """
     Start a pool of process to parallelize data processing across several workers.
 
@@ -153,26 +162,30 @@ def prepare_batch() -> tp.List[str]:
         batch: (tp.List[bytes])
     """
     logger.info("Get image names...")
-    batch: tp.List[str] = [os.path.basename(x) for x in glob.glob(os.path.join(args.video_path, "*.mp4"))]
-    print(batch)
+    with open(csv_file, "r") as fr:
+        for line in fr.readlines():
+            n_name = os.path.basename(line)
+            video_names.append(os.path.splitext(n_name)[0])
+    # batch: tp.List[str] = [os.path.basename(x) for x in glob.glob(os.path.join(video_path, "*.mp4"))]
+    batch: tp.List[tuple] = [(i, videoname) for i, videoname in enumerate(video_names)]
     return batch
 
 
-def prepare_batch_origin() -> tp.List[bytes]:
-    """
-    Generate a batch of image data to process.
+# def prepare_batch_origin() -> tp.List[bytes]:
+#     """
+#     Generate a batch of image data to process.
 
-    Returns:
-        batch: (tp.List[bytes])
-    """
-    logger.info("Reading src image...")
-    source = "sample.png"
-    img = cv.imread(source)
-    batch: tp.List[bytes] = []
-    for _ in range(NUM_IMAGES):
-        batch.append(img)
-    # FIll last batch with remaining
-    return batch
+#     Returns:
+#         batch: (tp.List[bytes])
+#     """
+#     logger.info("Reading src image...")
+#     source = "sample.png"
+#     img = cv.imread(source)
+#     batch: tp.List[bytes] = []
+#     for _ in range(NUM_IMAGES):
+#         batch.append(img)
+#     # FIll last batch with remaining
+#     return batch
 
 
 def run():
@@ -183,9 +196,8 @@ def run():
     start = time.perf_counter()
     results = compute_detections(batch)
     duration = time.perf_counter() - start
-    print(results)
     logger.info(f"gRPC server answered. Processed {NUM_IMAGES} images in {round(duration,2)} UA ({NUM_CLIENTS} clients)")
-    # logger.info(f"Text  detected on the first image: {results[0]}")
+    logger.info(f"Text  detected on the first image: {results[0]}")
 
 
 if __name__ == "__main__":

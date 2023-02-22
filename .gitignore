@@ -3,5 +3,6 @@
 *.log
 *.png
 
+.vscode
 
 __pycache__/

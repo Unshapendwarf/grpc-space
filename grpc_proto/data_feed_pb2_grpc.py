@@ -18,7 +18,7 @@ class DataFeedStub(object):
         self.get_sample = channel.unary_unary(
                 '/datafeed.DataFeed/get_sample',
                 request_serializer=data__feed__pb2.Config.SerializeToString,
-                response_deserializer=data__feed__pb2.Config.FromString,
+                response_deserializer=data__feed__pb2.Sample.FromString,
                 )
 
 
@@ -38,7 +38,7 @@ def add_DataFeedServicer_to_server(servicer, server):
             'get_sample': grpc.unary_unary_rpc_method_handler(
                     servicer.get_sample,
                     request_deserializer=data__feed__pb2.Config.FromString,
-                    response_serializer=data__feed__pb2.Config.SerializeToString,
+                    response_serializer=data__feed__pb2.Sample.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -64,6 +64,6 @@ class DataFeed(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/datafeed.DataFeed/get_sample',
             data__feed__pb2.Config.SerializeToString,
-            data__feed__pb2.Config.FromString,
+            data__feed__pb2.Sample.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
