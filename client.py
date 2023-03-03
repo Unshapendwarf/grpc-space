@@ -12,8 +12,8 @@ import glob
 
 # 3rd party libs
 import cv2 as cv
-
 import grpc
+import numpy as np
 
 sys.path.append("./grpc_proto")
 import data_feed_pb2
@@ -118,12 +118,22 @@ def _run_worker_query(get_tuple: tuple) -> str:
 
     """
     index, imgname = get_tuple
-    print(imgname)
+    print(f"send {imgname}, ", end="")
 
-    response: data_feed_pb2.Config = _worker_stub_singleton.get_sample(data_feed_pb2.Config(index=index, filename=imgname))
-    # change this return type to another
-    # print(response)
-    # return response.filename
+    response: data_feed_pb2.Sample = _worker_stub_singleton.get_sample(data_feed_pb2.Config(index=index, filename=imgname))
+
+    num_fr, size_fr = response.num_fr, response.size_fr
+    reconstruction = (num_fr, size_fr, size_fr, 3)
+    frame1 = np.frombuffer(response.frames.frame1, dtype=np.uint8).reshape(reconstruction)
+    frame2 = np.frombuffer(response.frames.frame1, dtype=np.uint8).reshape(reconstruction)
+    # print(f"received frame: {frame1}")
+
+    print(list(response.st_times.st_time1))
+    frames = [frame1, frame2]
+    st_time = [list(response.st_times.st_time1), list(response.st_times.st_time2)]
+    tdiff = [list(response.tdiffs.tdiff1), list(response.tdiffs.tdiff2)]
+
+    return "1"
     # return response.image
 
 
@@ -140,8 +150,8 @@ def compute_detections(batch: tp.List[tuple]) -> tp.List:
     Inspired from https://github.com/grpc/grpc/blob/master/examples/python/multiprocessing/client.py
 
     """
-    server_address = "localhost:50051"
-    # server_address = "143.248.53.54:50051"
+    # server_address = "localhost:50051"
+    server_address = "143.248.53.54:50051"
 
     with multiprocessing.Pool(
         processes=NUM_CLIENTS,
