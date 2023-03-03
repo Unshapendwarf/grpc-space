@@ -39,7 +39,7 @@ import data_feed_pb2
 # ------------- setting log, config: started ---------------
 parser = argparse.ArgumentParser(description='configuration for servers')  # 인자값을 받을 수 있는 인스턴스 생성
 # 입력받을 인자값 등록
-parser.add_argument('--video_path', default='/mnt/nvme0n1/k400/reduced/train', \
+parser.add_argument('--video_path', default='/mnt/nvme0n1/data/k400/reduced/train', \
                     help='A directory path where videos stored in ')
                     
 args = parser.parse_args()  # 입력받은 인자값을 args에 저장 (type: namespace)
@@ -65,14 +65,14 @@ TRAIN_JITTER_SCALES = [256, 320]
 TRAIN_JITTER_FPS = 0.0
 NUM_ENSEMBLE_VIEWS = 10  # cfg.TEST.NUM_ENSEMBLE_VIEWS
 
-NUM_WORKERS = int(os.environ.get("NUM_WORKERS", 4))
-savepoint = os.path.join("/data/hong/savepoint")  # mango3
-# save_point = os.path.join("/mnt/nvme0n1/")  # AGX Xavier
+NUM_WORKERS = int(os.environ.get("NUM_WORKERS", 1))
+# savepoint = os.path.join("/data/savepoint")  # mango3
+savepoint = os.path.join("/mnt/nvme0n1/data/savepoint")  # AGX Xavier
 
-preview_cfg = 8
+preview_cfg = 16
 
-csv_file = os.path.join("/home/hong/space-1/server-client/index_files/train.csv")
-video_path = "/data/hong/k400/reduced/train/"
+csv_file = os.path.join("./index_files/train.csv")
+video_path = "/mnt/nvme0n1/data/k400/reduced/train/"
 video_names = []
 
 
@@ -80,7 +80,7 @@ def set_video_index():
     with open(csv_file, 'r') as fr:
         for line in fr.readlines():
             n_name = os.path.basename(line)
-            video_names.append(os.path.splitext(n_name)[0])    
+            video_names.append(os.path.splitext(n_name)[0])
     
 
 # ---------------------------------------------------------
@@ -225,22 +225,30 @@ class DataFeedService(data_feed_pb2_grpc.DataFeedServicer):
         
         frames, st_list, tdiffs= GetDecoded(index=idx, filename=filename)
         if frames==None:
-            print("decode video")
+            print(f"decode: {filename}")
             frames, st_list, tdiffs = Decode(idx, filename)
-        else:
-            print(f'load {idx}, {filename} {type(frames)}')
         
-        assert isinstance(frames, list) and len(frames)==2
+        if frames==None:
+            return data_feed_pb2.Sample(frames=None,
+                                    st_times=None,
+                                    tdiffs=None,
+                                    num_fr=1,
+                                    size_fr=TRAIN_CROP_SIZE,
+                                    )
+            
 
-        ret_frames = [frame.numpy().tobytes() for frame in frames]
-        ret_sts = [unit_st for unit_st in st_list]
-        ret_tdiffs = [diff for diff in tdiffs]
-
+        ret_frames = [frame.numpy().tobytes() for frame in frames]        
+        
         ret_f = data_feed_pb2.Frames(frame1 = ret_frames[0], frame2 = ret_frames[1])
-        ret_s = data_feed_pb2.ST_times(st_time1 = ret_sts[0], st_time2 = ret_sts[1])
-        ret_t = data_feed_pb2.Tdiffs(tdiff1 = ret_tdiffs[0], tdiff2 = ret_tdiffs[1])
+        ret_s = data_feed_pb2.ST_times(st_time1 = st_list[0], st_time2 = st_list[1])
+        ret_t = data_feed_pb2.Tdiffs(tdiff1 = tdiffs[0], tdiff2 = tdiffs[1])
         
-        return data_feed_pb2.Sample(frames=ret_f, st_times=ret_s, tdiffs=ret_t)
+        return data_feed_pb2.Sample(frames=ret_f,
+                                    st_times=ret_s,
+                                    tdiffs=ret_t,
+                                    num_fr=8,
+                                    size_fr=TRAIN_CROP_SIZE,
+                                    )
         # return request.filename
             
     

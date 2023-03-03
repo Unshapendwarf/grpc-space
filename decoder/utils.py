@@ -12,7 +12,7 @@ from torch.utils.data.distributed import DistributedSampler
 
 from torchvision import transforms
 
-from slowfast.utils.env import pathmgr
+from partial_slow.utils.env import pathmgr
 
 from . import transform as transform
 
