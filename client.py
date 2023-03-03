@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser(description="configuration for clients")  # 인
 parser.add_argument(
     "--video_path",
     # required=True,
-    default="/data/hong/k400/reduced/foo_test",
+    default="/mnt/nvme0n1/data/savepoint/",
     help="A directory path where videos are stored in ",
 )
 args = parser.parse_args()  # 입력받은 인자값을 args에 저장 (type: namespace)

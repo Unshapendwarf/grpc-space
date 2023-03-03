@@ -225,147 +225,6 @@ def pyav_decode_stream(container, start_pts, end_pts, stream, stream_name, buffe
     return result, max_pts
 
 
-def torchvision_decode(
-    video_handle,
-    sampling_rate,
-    num_frames,
-    clip_idx,
-    video_meta,
-    num_clips_uniform=10,
-    target_fps=30,
-    modalities=("visual",),
-    max_spatial_scale=0,
-    use_offset=False,
-    min_delta=-math.inf,
-    max_delta=math.inf,
-):
-    """
-    If video_meta is not empty, perform temporal selective decoding to sample a
-    clip from the video with TorchVision decoder. If video_meta is empty, decode
-    the entire video and update the video_meta.
-    Args:
-        video_handle (bytes): raw bytes of the video file.
-        sampling_rate (int): frame sampling rate (interval between two sampled
-            frames).
-        num_frames (int): number of frames to sample.
-        clip_idx (int): if clip_idx is -1, perform random temporal
-            sampling. If clip_idx is larger than -1, uniformly split the
-            video to num_clips_uniform clips, and select the clip_idx-th video clip.
-        video_meta (dict): a dict contains VideoMetaData. Details can be found
-            at `pytorch/vision/torchvision/io/_video_opt.py`.
-        num_clips_uniform (int): overall number of clips to uniformly sample from the
-            given video.
-        target_fps (int): the input video may has different fps, convert it to
-            the target video fps.
-        modalities (tuple): tuple of modalities to decode. Currently only
-            support `visual`, planning to support `acoustic` soon.
-        max_spatial_scale (int): the resolution of the spatial shorter
-            edge size during decoding.
-        min_delta (int): minimum distance between clips when sampling multiple.
-        max_delta (int): max distance between clips when sampling multiple.
-    Returns:
-        frames (tensor): decoded frames from the video.
-        fps (float): the number of frames per second of the video.
-        decode_all_video (bool): if True, the entire video was decoded.
-    """
-    # Convert the bytes to a tensor.
-    video_tensor = torch.from_numpy(np.frombuffer(video_handle, dtype=np.uint8))
-
-    decode_all_video = True
-    video_start_pts, video_end_pts = 0, -1
-    # The video_meta is empty, fetch the meta data from the raw video.
-    if len(video_meta) == 0:
-        # Tracking the meta info for selective decoding in the future.
-        meta = io._probe_video_from_memory(video_tensor)
-        # Using the information from video_meta to perform selective decoding.
-        video_meta["video_timebase"] = meta.video_timebase
-        video_meta["video_numerator"] = meta.video_timebase.numerator
-        video_meta["video_denominator"] = meta.video_timebase.denominator
-        video_meta["has_video"] = meta.has_video
-        video_meta["video_duration"] = meta.video_duration
-        video_meta["video_fps"] = meta.video_fps
-        video_meta["audio_timebas"] = meta.audio_timebase
-        video_meta["audio_numerator"] = meta.audio_timebase.numerator
-        video_meta["audio_denominator"] = meta.audio_timebase.denominator
-        video_meta["has_audio"] = meta.has_audio
-        video_meta["audio_duration"] = meta.audio_duration
-        video_meta["audio_sample_rate"] = meta.audio_sample_rate
-
-    fps = video_meta["video_fps"]
-
-    if len(video_meta) > 0 and (
-        video_meta["has_video"]
-        and video_meta["video_denominator"] > 0
-        and video_meta["video_duration"] > 0
-        and fps * video_meta["video_duration"] > sum(T * tau for T, tau in zip(num_frames, sampling_rate))
-    ):
-        decode_all_video = False  # try selective decoding
-
-        clip_sizes = [np.maximum(1.0, sampling_rate[i] * num_frames[i] / target_fps * fps) for i in range(len(sampling_rate))]
-        start_end_delta_time = get_multiple_start_end_idx(
-            fps * video_meta["video_duration"],
-            clip_sizes,
-            clip_idx,
-            num_clips_uniform,
-            min_delta=min_delta,
-            max_delta=max_delta,
-            use_offset=use_offset,
-        )
-        frames_out = [None] * len(num_frames)
-        for k in range(len(num_frames)):
-            pts_per_frame = video_meta["video_denominator"] / video_meta["video_fps"]
-            video_start_pts = int(start_end_delta_time[k, 0] * pts_per_frame)
-            video_end_pts = int(start_end_delta_time[k, 1] * pts_per_frame)
-
-            # Decode the raw video with the tv decoder.
-            v_frames, _ = io._read_video_from_memory(
-                video_tensor,
-                seek_frame_margin=1.0,
-                read_video_stream="visual" in modalities,
-                video_width=0,
-                video_height=0,
-                video_min_dimension=max_spatial_scale,
-                video_pts_range=(video_start_pts, video_end_pts),
-                video_timebase_numerator=video_meta["video_numerator"],
-                video_timebase_denominator=video_meta["video_denominator"],
-                read_audio_stream=0,
-            )
-            if v_frames is None or v_frames.shape == torch.Size([0]):
-                decode_all_video = True
-                logger.info("TV decode FAILED try decode all")
-                break
-            frames_out[k] = v_frames
-
-    if decode_all_video:
-        # failed selective decoding
-        decode_all_video = True
-        video_start_pts, video_end_pts = 0, -1
-        start_end_delta_time = None
-        v_frames, _ = io._read_video_from_memory(
-            video_tensor,
-            seek_frame_margin=1.0,
-            read_video_stream="visual" in modalities,
-            video_width=0,
-            video_height=0,
-            video_min_dimension=max_spatial_scale,
-            video_pts_range=(video_start_pts, video_end_pts),
-            video_timebase_numerator=video_meta["video_numerator"],
-            video_timebase_denominator=video_meta["video_denominator"],
-            read_audio_stream=0,
-        )
-        if v_frames.shape == torch.Size([0]):
-            v_frames = None
-            logger.info("TV decode FAILED try cecode all")
-
-        frames_out = [v_frames]
-
-    if any([t.shape[0] < 0 for t in frames_out]):
-        frames_out = [None]
-        logger.info("TV decode FAILED: Decoded empty video")
-
-    return frames_out, fps, decode_all_video, start_end_delta_time
-
-
 def pyav_decode(
     container,
     sampling_rate,
@@ -681,27 +540,6 @@ def pyav_all_decode(
 
     return frames_out, fps, decode_all_video, start_end_delta_time
 
-
-def combine_and_write(columns: int, space: int, images: list):
-    rows = len(images) // columns
-    if len(images) % columns:
-        rows += 1
-    width_max, height_max = 96, 96  # 224,224
-    background_width = width_max * columns
-    background_height = height_max * rows
-    background = Image.new("RGB", (background_width, background_height), (255, 255, 255))
-
-    x = 0
-    y = 0
-    for i, image in enumerate(images):
-        background.paste(image, (x, y))
-        x += width_max
-        if (i + 1) % columns == 0:
-            y += height_max
-            x = 0
-    background.save("image.png")
-
-
 def cropper(frame):
     frame = frame.permute(3, 0, 1, 2)  # T H W C -> C T H W.
     frame, _ = transform.random_crop(frame, 96)
@@ -717,9 +555,6 @@ def Write_SSD(frames, st_times, tdiffs, fname):
         stitched = to_pil_image(stitched)
         stitched.save(fname + f"_{idx}.png")
         # stitched = stitched.to(torch.uint8)
-
-        # save_image(stitched, fname + f"_{idx}.png")
-
     # save st_times and tdiffs with pickle
     with open(fname + "_st.pckl", "wb") as fw1:
         pickle.dump(st_times, fw1)
@@ -779,7 +614,7 @@ def my_decode(
     except Exception as e:
         print("Failed to decode with exception: {}".format(e))
         # frame_list = []
-        return
+        return None, None, None
 
     # Return None if the frames was not decoded successfully.
     if frames_decoded is None or None in frames_decoded:
@@ -863,3 +698,4 @@ def my_decode(
             print("Empty path, not able to store data")
             return None, None, None
         Write_SSD(ret_frame, ret_time, ret_diff_aug, save_path + f"_{i_preview}")
+        ret_frame, ret_time, ret_diff_aug = None, None, None

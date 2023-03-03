@@ -16,6 +16,8 @@ message Sample {
   Frames frames = 1;
   ST_times st_times = 2;
   Tdiffs tdiffs = 3;
+  int32 num_fr = 4;
+  int32 size_fr = 5;
 }
 
 message Frames {
