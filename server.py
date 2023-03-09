@@ -65,14 +65,15 @@ TRAIN_JITTER_SCALES = [256, 320]
 TRAIN_JITTER_FPS = 0.0
 NUM_ENSEMBLE_VIEWS = 10  # cfg.TEST.NUM_ENSEMBLE_VIEWS
 
-NUM_WORKERS = int(os.environ.get("NUM_WORKERS", 1))
-# savepoint = os.path.join("/data/savepoint")  # mango3
-savepoint = os.path.join("/mnt/nvme0n1/data/savepoint")  # AGX Xavier
+NUM_WORKERS = int(os.environ.get("NUM_WORKERS", 4))
+savepoint = os.path.join("/data/hong/savepoint")  # mango3
+# savepoint = os.path.join("/mnt/nvme0n1/data/savepoint")  # AGX Xavier
 
 preview_cfg = 16
 
 csv_file = os.path.join("./index_files/train.csv")
-video_path = "/mnt/nvme0n1/data/k400/reduced/train/"
+video_path = "/data/hong/k400/reduced/train/"
+# video_path = args.video_path  # for agx machine
 video_names = []
 
 
@@ -81,7 +82,7 @@ def set_video_index():
         for line in fr.readlines():
             n_name = os.path.basename(line)
             video_names.append(os.path.splitext(n_name)[0])
-    
+
 
 # ---------------------------------------------------------
 def GetDecoded(index, filename):

@@ -22,7 +22,7 @@ import data_feed_pb2_grpc
 # import grpc_proto.data_feed_pb2 as data_feed_pb2
 # import grpc_proto.data_feed_pb2_grpc as data_feed_pb2_grpc
 
-NUM_CLIENTS = 8
+NUM_CLIENTS = 10
 NUM_IMAGES = 12
 
 # *********************** arg parser: start **************************
@@ -31,7 +31,7 @@ parser = argparse.ArgumentParser(description="configuration for clients")  # 인
 parser.add_argument(
     "--video_path",
     # required=True,
-    default="/mnt/nvme0n1/data/savepoint/",
+    default="/data/hong/k400/reduced/train/",
     help="A directory path where videos are stored in ",
 )
 args = parser.parse_args()  # 입력받은 인자값을 args에 저장 (type: namespace)
@@ -118,7 +118,7 @@ def _run_worker_query(get_tuple: tuple) -> str:
 
     """
     index, imgname = get_tuple
-    print(f"send {imgname}, ", end="")
+    # print(f"send {imgname}, ", end="")
 
     response: data_feed_pb2.Sample = _worker_stub_singleton.get_sample(data_feed_pb2.Config(index=index, filename=imgname))
 
@@ -128,7 +128,7 @@ def _run_worker_query(get_tuple: tuple) -> str:
     frame2 = np.frombuffer(response.frames.frame1, dtype=np.uint8).reshape(reconstruction)
     # print(f"received frame: {frame1}")
 
-    print(list(response.st_times.st_time1))
+    # print(list(response.st_times.st_time1))
     frames = [frame1, frame2]
     st_time = [list(response.st_times.st_time1), list(response.st_times.st_time2)]
     tdiff = [list(response.tdiffs.tdiff1), list(response.tdiffs.tdiff2)]
@@ -150,8 +150,8 @@ def compute_detections(batch: tp.List[tuple]) -> tp.List:
     Inspired from https://github.com/grpc/grpc/blob/master/examples/python/multiprocessing/client.py
 
     """
-    # server_address = "localhost:50051"
-    server_address = "143.248.53.54:50051"
+    server_address = "localhost:50051"
+    # server_address = "143.248.53.54:50051"
 
     with multiprocessing.Pool(
         processes=NUM_CLIENTS,
