@@ -256,13 +256,11 @@ class DataFeedService(data_feed_pb2_grpc.DataFeedServicer):
 @contextlib.contextmanager
 def _reserve_port():
     """Find and reserve a port for all subprocesses to use"""
-    # for i in range(0,NUM_WORKERS):
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
     if sock.getsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT) == 0:
-        raise RuntimeError("Failed to set SO_REUSEPORT.")    
+        raise RuntimeError("Failed to set SO_REUSEPORT.")
     sock.bind(("", 50051))
-    # sock.bind(("", 50051+i))
     try:
         yield sock.getsockname()[1]
     finally:
@@ -298,18 +296,6 @@ def serve():
     Inspired from https://github.com/grpc/grpc/blob/master/examples/python/multiprocessing/server.py
     """
     logger.info(f"Initializing server with {NUM_WORKERS} workers")
-    # workers = []
-    # for port in _reserve_port():
-    #     bind_address = f"[::]:{port}"
-    #     logger.info(f"Binding to {bind_address}")
-    #     sys.stdout.flush()
-    #     worker = mp.Process(target=_run_server, args=(bind_address,))
-    #     worker.start()
-    #     workers.append(worker)
-    # for worker in workers:
-    #     worker.join()
-    
-    
     with _reserve_port() as port:
         bind_address = f"[::]:{port}"
         logger.info(f"Binding to {bind_address}")
@@ -321,7 +307,7 @@ def serve():
             workers.append(worker)
         for worker in workers:
             worker.join()
-
+    
 
 if __name__ == '__main__':
     set_video_index()

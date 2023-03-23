@@ -5,7 +5,10 @@ import logging
 import math
 import numpy as np
 import random
-import threading
+
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
+
 from typing import List, Optional
 
 import torch
@@ -439,7 +442,9 @@ def decode(
     if not isinstance(frames_decoded, list):
         frames_decoded = [frames_decoded]
     num_decoded = len(frames_decoded)
-    clip_sizes = [np.maximum(1.0, sampling_rate[i] * num_frames[i] / target_fps * fps) for i in range(len(sampling_rate))]
+    clip_sizes = [
+        np.maximum(1.0, sampling_rate[i] * num_frames[i] / target_fps * fps) for i in range(len(sampling_rate))
+    ]
 
     if decode_all_video:  # full video was decoded (not trimmed yet)
         assert num_decoded == 1 and start_end_delta_time is None
@@ -540,6 +545,7 @@ def pyav_all_decode(
 
     return frames_out, fps, decode_all_video, start_end_delta_time
 
+
 def cropper(frame):
     frame = frame.permute(3, 0, 1, 2)  # T H W C -> C T H W.
     frame, _ = transform.random_crop(frame, 96)
@@ -547,7 +553,8 @@ def cropper(frame):
     return frame
 
 
-def Write_SSD(frames, st_times, tdiffs, fname):
+def Write_SSD(get_from):
+    frames, st_times, tdiffs, fname = get_from
     for idx, raw in zip(["a", "b"], frames):
         cropped = cropper(raw)
         stitched = make_grid(cropped, padding=0, nrow=4)
@@ -623,8 +630,12 @@ def my_decode(
     if not isinstance(frames_decoded, list):
         frames_decoded = [frames_decoded]
     num_decoded = len(frames_decoded)
-    clip_sizes = [np.maximum(1.0, sampling_rate[i] * num_frames[i] / target_fps * fps) for i in range(len(sampling_rate))]
+    clip_sizes = [
+        np.maximum(1.0, sampling_rate[i] * num_frames[i] / target_fps * fps) for i in range(len(sampling_rate))
+    ]
 
+    
+    temp_data = []
     for i_preview in range(num_preview):
         if decode_all_video:  # full video was decoded (not trimmed yet)
             start_end_delta_time = get_multiple_start_end_idx(
@@ -687,15 +698,38 @@ def my_decode(
         frames_out, start_end_delta_time, time_diff_aug = None, None, None
 
         # frame_list.append([ret_frame, ret_time, ret_diff_aug])
-        if i_preview == num_preview - 1:
-            ret_frame[0] = cropper(ret_frame[0])
-            ret_frame[1] = cropper(ret_frame[1])
-            return ret_frame, ret_time, ret_diff_aug
+        temp_data.append((ret_frame, ret_time, ret_diff_aug, save_path + f"_{i_preview}"))
+        break
+        # if i_preview == num_preview - 1:
+        #     ret_frame[0] = cropper(ret_frame[0])
+        #     ret_frame[1] = cropper(ret_frame[1])
+        #     return ret_frame, ret_time, ret_diff_aug
 
-        # else:
-        # write data to SSD
-        if len(save_path) == 0:
-            print("Empty path, not able to store data")
-            return None, None, None
-        Write_SSD(ret_frame, ret_time, ret_diff_aug, save_path + f"_{i_preview}")
-        ret_frame, ret_time, ret_diff_aug = None, None, None
+        # # else:
+        # # write data to SSD
+        # if len(save_path) == 0:
+        #     print("Empty path, not able to store data")
+        #     return None, None, None
+        # Write_SSD(ret_frame, ret_time, ret_diff_aug, save_path + f"_{i_preview}")
+        # ret_frame, ret_time, ret_diff_aug = None, None, None
+    
+    future_lst = []
+    # with ThreadPoolExecutor(max_workers = num_preview-1) as executor:
+    #     results = executor.map(Write_SSD, temp_data[:-1])
+    #     for task in temp_data[:-1]:
+    #         future = executor.submit(Write_SSD, task)
+    #         future_lst.append(future)
+
+    #     for future in as_completed(future_lst):
+    #         result = future.result()
+    #         done = future.done()
+    #         # print(done)
+
+    
+    ret_frame_temp, ret_time_temp, ret_diff_aug_temp, _ = temp_data[-1]
+    ret_frame_temp[0]=cropper(ret_frame_temp[0])
+    ret_frame_temp[1]=cropper(ret_frame_temp[1])
+    return ret_frame_temp, ret_time_temp, ret_diff_aug_temp
+    
+
+    

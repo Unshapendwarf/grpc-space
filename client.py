@@ -120,7 +120,9 @@ def _run_worker_query(get_tuple: tuple) -> str:
     index, imgname = get_tuple
     # print(f"send {imgname}, ", end="")
 
-    response: data_feed_pb2.Sample = _worker_stub_singleton.get_sample(data_feed_pb2.Config(index=index, filename=imgname))
+    response: data_feed_pb2.Sample = _worker_stub_singleton.get_sample(
+        data_feed_pb2.Config(index=index, filename=imgname)
+    )
 
     num_fr, size_fr = response.num_fr, response.size_fr
     reconstruction = (num_fr, size_fr, size_fr, 3)
@@ -159,7 +161,10 @@ def compute_detections(batch: tp.List[tuple]) -> tp.List:
         initargs=(server_address,),
     ) as worker_pool:
 
-        ocr_results = worker_pool.map(_run_worker_query, batch)
+        ocr_results = worker_pool.map(
+            _run_worker_query,
+            batch,
+        )
         # print(ocr_results)
         return [txt for txt in ocr_results]
 
@@ -206,7 +211,9 @@ def run():
     start = time.perf_counter()
     results = compute_detections(batch)
     duration = time.perf_counter() - start
-    logger.info(f"gRPC server answered. Processed {NUM_IMAGES} images in {round(duration,2)} UA ({NUM_CLIENTS} clients)")
+    logger.info(
+        f"gRPC server answered. Processed {NUM_IMAGES} images in {round(duration,2)} UA ({NUM_CLIENTS} clients)"
+    )
     logger.info(f"Text  detected on the first image: {results[0]}")
 
 
